@@ -1,9 +1,11 @@
 import logging
+import os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from instaloader import Instaloader, Profile
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+PORT = int(os.environ.get('PORT', 5000))
 bot_token = '5449413191:AAHq9zYO6Zj23lj2vNY8jRmhHXC2VNTHeMc'
 
 def start(update, context):
@@ -47,5 +49,8 @@ updater.dispatcher.add_handler(MessageHandler(Filters.command, download_pic))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, download_pic))
 
 dp.add_error_handler(error)
-updater.start_polling()
+updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+updater.bot.setWebhook('https://obscure-chamber-30229.herokuapp.com/' + bot_token)
 updater.idle()
