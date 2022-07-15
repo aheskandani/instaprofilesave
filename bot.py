@@ -5,8 +5,7 @@ from telegram.ext.commandhandler import CommandHandler
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.filters import Filters
 from instaloader import Instaloader, Profile
-import os
-PORT = int(os.environ.get('PORT', 5000))
+
 bot_token = '5449413191:AAHq9zYO6Zj23lj2vNY8jRmhHXC2VNTHeMc'
 updater = Updater(bot_token, use_context=True)
 
@@ -53,7 +52,6 @@ updater.dispatcher.add_handler(MessageHandler(Filters.text, download_pic))
 updater.dispatcher.add_handler(MessageHandler(Filters.command, download_pic))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown_text))
 
-updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=TOKEN)
-updater.bot.setWebhook('https://obscure-chamber-30229.herokuapp.com/' + bot_token)
+updater.start_polling()
+updater.idle()
+
